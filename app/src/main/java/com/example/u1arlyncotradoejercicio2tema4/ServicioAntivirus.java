@@ -16,41 +16,31 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 
 public class ServicioAntivirus extends Service {
     private static final int ID_NOTIFICACION_CREAR = 1;
     public static final String NOTIFICATION_CHANNEL_ID = "1000";
-    public static final String NOTIFICATION_CHANNEL_NAME = "UNJBG";
+    public static final String NOTIFICATION_CHANNEL_NAME = "BAntivirus";
 
     @Override //notificacion
     public int onStartCommand(Intent intenc, int flags, int idArranque) {
 
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        PendingIntent  inicio= PendingIntent.getActivity(this,0, i,0);
 
         NotificationCompat.Builder notific = new NotificationCompat.Builder(this)
-                .setContentTitle("Creando Servicio de Música")
+                .setContentTitle(Html.fromHtml("<b>Buscando virus</b>"))
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText("información adicional")
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                        android.R.drawable.ic_media_play))
-                .setWhen(System.currentTimeMillis() + 1000 * 60 * 60)//vibrar
+                .setContentText(Html.fromHtml("<b>Analizando</b> <u>búsqueda<i>exahustiva</i></u>"))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.avast));
+              /* .setWhen(System.currentTimeMillis() + 1000 * 60 * 60)//vibrar
                 .setContentInfo("más info")
-                .setTicker("Texto en barra de estado")
-                .addAction(android.R.drawable.ic_dialog_alert, "INICIAR", inicio)
-                .setDefaults(Notification.DEFAULT_SOUND)
-                .setContentText(Html.fromHtml("<b>Notificación</b> <u>Android<i>UPT</i></u>"))
-                .setStyle(new NotificationCompat.InboxStyle()
-                        .addLine("Nueva Conferencia Los neutrinos")
-                        .setBigContentTitle("2 notificaciones UPT")
-                        .setSummaryText("info@upt.pe"))
-                .setNumber(2)
-                .setDefaults(Notification.DEFAULT_VIBRATE);
+                .setTicker("Texto en barra de estado")*/
+
 
         // Para lanzar una actividad
-        /*PendingIntent intencionPendiente = PendingIntent.getActivity(
+        PendingIntent intencionPendiente = PendingIntent.getActivity(
                 this, 0, new Intent(this, Servicio.class), 0);
-        notific.setContentIntent(intencionPendiente);*/
+        notific.setContentIntent(intencionPendiente);
 
 
         NotificationManager notificationManager = (NotificationManager)
@@ -70,8 +60,7 @@ public class ServicioAntivirus extends Service {
         notificationManager.notify(ID_NOTIFICACION_CREAR, notific.build());//construye la notificacion
 
         //   notificationManager.notify(3,notific.build());
-        Toast.makeText(this, "Servicio arrancado " + idArranque,
-                Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "Servicio arrancado " + idArranque, Toast.LENGTH_SHORT).show();
          //startForeground(101,notific.build());
         return START_STICKY;
     }
@@ -79,5 +68,11 @@ public class ServicioAntivirus extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+    @Override public void onDestroy() {
+//Eliminando la notificacion
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(ID_NOTIFICACION_CREAR);
     }
 }
