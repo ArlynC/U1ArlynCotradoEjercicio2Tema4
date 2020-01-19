@@ -29,7 +29,7 @@ public class ServicioAntivirus extends Service {
 
         NotificationCompat.Builder notific = new NotificationCompat.Builder(this)
                 .setContentTitle(Html.fromHtml("<b>Buscando virus</b>"))
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.avast)
                 .setContentText(Html.fromHtml("<b>Analizando</b> <u>búsqueda<i>exahustiva</i></u>"))
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.avast));
               /* .setWhen(System.currentTimeMillis() + 1000 * 60 * 60)//vibrar
