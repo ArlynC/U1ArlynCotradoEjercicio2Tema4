@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.Html;
 import android.widget.Toast;
@@ -30,7 +31,7 @@ public class ServicioAntivirus extends Service {
         NotificationCompat.Builder notific = new NotificationCompat.Builder(this)
                 .setContentTitle(Html.fromHtml("<b>Buscando virus</b>"))
                 .setSmallIcon(R.drawable.avast)
-                .setContentText(Html.fromHtml("<b>Analizando</b> <u>búsqueda<i>exahustiva</i></u>"))
+                .setContentText(Html.fromHtml("<b>Analizando</b> <u>búsqueda <i>exahustiva</i></u>"))
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.avast));
               /* .setWhen(System.currentTimeMillis() + 1000 * 60 * 60)//vibrar
                 .setContentInfo("más info")
@@ -57,22 +58,23 @@ public class ServicioAntivirus extends Service {
             notific.setChannelId(NOTIFICATION_CHANNEL_ID);
 
         }
-        notificationManager.notify(ID_NOTIFICACION_CREAR, notific.build());//construye la notificacion
+        //notificationManager.notify(ID_NOTIFICACION_CREAR, notific.build());//construye la notificacion
 
         //   notificationManager.notify(3,notific.build());
-       // Toast.makeText(this, "Servicio arrancado " + idArranque, Toast.LENGTH_SHORT).show();
-         //startForeground(101,notific.build());
+         startForeground(101,notific.build());
         return START_STICKY;
+/*
+        Handler handler = new Handler();
+        handler.postDelayed(
+                new Runnable() {
+                    public void run() {
+                        startActivity(new Intent(this, Musica.class));
+                    }
+                }, 5000L);*/
     }
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-    @Override public void onDestroy() {
-//Eliminando la notificacion
-        NotificationManager notificationManager = (NotificationManager)
-                getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(ID_NOTIFICACION_CREAR);
     }
 }
